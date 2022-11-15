@@ -10,4 +10,12 @@ Feature: Pet store API - Pets
     And param status = petStatus[2]
     When method GET
     Then status 200
-    And print petUtils.print()
+    And print response.map(pet => "{" + pet.id + ", " + pet.name + "}")
+
+  Scenario: Get available pets counted by name
+    Given path '/pet/findByStatus'
+    And param status = petStatus[0]
+    When method GET
+    Then status 200
+    And string payload = response
+    And print petUtils.countPetsByName(payload)
